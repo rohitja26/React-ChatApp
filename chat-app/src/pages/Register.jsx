@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
@@ -42,10 +42,16 @@ function Register() {
       }
       if (data.status === true) {
         localStorage.setItem("User", JSON.stringify(data.user));
-        navigate("/");
+        navigate("/setavatar");
       }
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("User")) {
+      navigate("/");
+    }
+  }, []);
 
   const handleValidation = () => {
     const { password, confirmPassword, username, email } = values;
