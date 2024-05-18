@@ -46,7 +46,6 @@ module.exports.login = async (req, res, next) => {
 module.exports.setavatar = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    console.log(userId);
     const avatarImage = req.body.image;
     const userData = await User.findByIdAndUpdate(userId, {
       isAvatarImageSet: true,
@@ -69,8 +68,8 @@ module.exports.getAllUsers = async (req, res, next) => {
       "avatarImage",
       "_id",
     ]);
-    return res.json({ users });
-  } catch (err) {
-    next(err);
+    res.json(users);
+  } catch (ex) {
+    next(ex);
   }
 };

@@ -27,12 +27,11 @@ function Login() {
     if (localStorage.getItem("User")) {
       navigate("/");
     }
-  }, []);
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      console.log("Reached to handlesubmit");
       const { password, username } = values;
       const { data } = await axios.post(loginRoute, {
         username,

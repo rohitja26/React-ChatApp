@@ -53,26 +53,21 @@ export default function SetAvatar() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = [];
-        for (let i = 0; i < 4; i++) {
-          const image = await axios.get(
-            `${api}/${Math.round(Math.random() * 1000)}`
-          );
-          const buffer = new Buffer(image.data);
-          data.push(buffer.toString("base64"));
-        }
-        console.log(data);
-        setAvatars(data);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    fetchData();
+  }, []);
 
-    fetchData(); // Call the async function immediately
-  }, []); // Empty dependency array means the effect runs only once on mount
+  const fetchData = async () => {
+    const data = [];
+    for (let i = 0; i < 4; i++) {
+      const image = await axios.get(
+        `${api}/${Math.round(Math.random() * 1000)}`
+      );
+      const buffer = new Buffer(image.data);
+      data.push(buffer.toString("base64"));
+    }
+    setAvatars(data);
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -87,6 +82,7 @@ export default function SetAvatar() {
           </div>
           <div className="avatars">
             {avatars.map((avatar, index) => {
+              console.log(`data:image/svg+xml;base64,${avatar}`);
               return (
                 <div
                   key={index}

@@ -51,10 +51,10 @@ function Register() {
     if (localStorage.getItem("User")) {
       navigate("/");
     }
-  }, []);
+  });
 
   const handleValidation = () => {
-    const { password, confirmPassword, username, email } = values;
+    const { password, confirmPassword, username } = values;
     if (password !== confirmPassword) {
       toast.error("Password and ConfirmPassword should be same", toastOption);
       return false;
