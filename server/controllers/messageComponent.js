@@ -9,7 +9,7 @@ module.exports.addMessage = async (req, res, next) => {
       sender: from,
     });
     if (data) return res.json({ msg: "Message Added Successfully" });
-    return res.json({ msg: "Error white adding message" });
+    else return res.json({ msg: "Error white adding message" });
   } catch (err) {
     next(err);
   }

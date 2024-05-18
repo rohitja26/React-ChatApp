@@ -12,42 +12,40 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
   const scrollRef = useRef();
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (currentChat) {
-        const response = await axios.post(getAllMessageRoute, {
-          from: currentUser._id,
-          to: currentChat._id,
-        });
-        console.log(response.data);
-        setMessages(Array.isArray(response.data) ? response.data : []);
-      }
-    };
     fetchData();
-  }, []);
+  }, [currentChat]);
+  const fetchData = async () => {
+    if (currentChat) {
+      const response = await axios.post(getAllMessageRoute, {
+        from: currentUser._id,
+        to: currentChat._id,
+      });
+      setMessages(Array.isArray(response.data) ? response.data : []);
+    }
+  };
 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
-        console.log("msg-recieve", msg);
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
-  }, [socket, setArrivalMessage]);
+  }, []);
 
   const handleSendMsg = async (msg) => {
+    socket.current.emit("send-msg", {
+      to: currentChat._id,
+      from: currentUser._id,
+      msg,
+    });
     await axios.post(sendMessageRoute, {
       from: currentUser._id,
       to: currentChat._id,
       message: msg,
     });
-    socket.current.emit("send-msg", {
-      to: currentChat._id,
-      from: currentUser._id,
-      messags: msg,
-    });
+
     const msgs = [...messages];
     msgs.push({ fromSelf: true, message: msg });
-    console.log(msgs);
     setMessages(msgs);
   };
 
