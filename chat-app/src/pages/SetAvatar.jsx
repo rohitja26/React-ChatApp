@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAsyncError, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import loader from "../assets/loader.gif";
 import { toast, ToastContainer } from "react-toastify";
