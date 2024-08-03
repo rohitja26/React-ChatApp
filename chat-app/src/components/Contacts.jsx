@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 
-export default function Contacts({ contacts, currentUser, changeChat }) {
+export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
-  useEffect(() => {
-    if (currentUser) {
-      setCurrentUserName(currentUser.username);
-      setCurrentUserImage(currentUser.avatarImage);
-    }
-  }, [currentUser]);
-
+  useEffect(async () => {
+    const data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    );
+    setCurrentUserName(data.username);
+    setCurrentUserImage(data.avatarImage);
+  }, []);
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
@@ -23,13 +23,13 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>Chatty</h3>
+            <h3>snappy</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
               return (
                 <div
-                  key={index}
+                  key={contact._id}
                   className={`contact ${
                     index === currentSelected ? "selected" : ""
                   }`}
@@ -38,7 +38,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                   <div className="avatar">
                     <img
                       src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt="avatar"
+                      alt=""
                     />
                   </div>
                   <div className="username">
